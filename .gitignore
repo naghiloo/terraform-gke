@@ -345,6 +345,8 @@ token.json
 # ##############################################################################
 # Go from https://raw.githubusercontent.com/github/gitignore/master/Go.gitignore
 
+**/go.*
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
