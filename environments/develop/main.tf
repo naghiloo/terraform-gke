@@ -20,6 +20,31 @@ module "subnet_main" {
 
 
 # #############################################################################
+# Service Account Setup
+# #############################################################################
+
+module "gke_service_account" {
+  source = "../../modules/service-account"
+
+  account_id = "gke-sa"
+  display_name = "GKE Service Account"
+}
+
+module "service_account_role_binding" {
+  source = "../../modules/role-binding"
+
+  project_id      = var.google_project
+  service_account = module.gke_service_account.email
+
+  roles = [
+    "roles/logging.logWriter",        # This allows the nodes to write logs to Cloud Logging
+    "roles/monitoring.metricWriter",  # This allows the nodes to send monitoring metrics to Cloud Monitoring
+    "roles/monitoring.viewer",        # This allows the nodes to view monitoring metrics in Cloud Monitoring
+  ]
+}
+
+
+# #############################################################################
 # GKE Setup
 # #############################################################################
 
@@ -46,6 +71,8 @@ module "gke_nodepool_default" {
   location = "${var.google_region}-a"
 
   machine_type = var.machine_type
+
+  service_account = module.gke_service_account.email
 }
 
 
