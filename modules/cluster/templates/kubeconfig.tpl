@@ -11,8 +11,8 @@ contexts:
 - context:
     cluster: ${cluster_name}
     user: ${cluster_name}
-  name: ${nacluster_nameme}
+  name: ${cluster_name}
 users:
-- name: ${nacluster_nameme}
+- name: ${cluster_name}
   user:
     token: ${access_token}
